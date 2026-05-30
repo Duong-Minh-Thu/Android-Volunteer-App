@@ -18,6 +18,7 @@ android {
         localProperties.load(FileInputStream(localPropertiesFile))
     }
     val weatherApiKey = localProperties.getProperty("WEATHER_API_KEY") ?: "\"ee462d8db8119a5b1bc859d6b7560033\""
+    val mapsApiKey = localProperties.getProperty("MAPS_API_KEY") ?: "\"AIzaSyA1sqnfb58KFDudvcIesCBRo-N0alDQh_Y\""
 
     defaultConfig {
         applicationId = "com.volunteer.manager"
@@ -30,6 +31,9 @@ android {
 
         // Khai báo API Key vào BuildConfig
         buildConfigField("String", "WEATHER_API_KEY", weatherApiKey)
+
+        // Tự động sinh ra string resource google_maps_key bảo mật từ local.properties
+        resValue("string", "google_maps_key", mapsApiKey.replace("\"", ""))
     }
 
     buildTypes {
