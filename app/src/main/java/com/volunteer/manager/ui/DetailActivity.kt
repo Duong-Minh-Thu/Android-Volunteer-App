@@ -78,7 +78,7 @@ class DetailActivity : AppCompatActivity(), OnMapReadyCallback {
     private var participantList = mutableListOf<User>()
     private var isOrgOrAdmin: Boolean = false
     
-    private val WEATHER_API_KEY = "ee462d8db8119a5b1bc859d6b7560033"
+    private val WEATHER_API_KEY = com.volunteer.manager.BuildConfig.WEATHER_API_KEY
     private val currentUserId = FirebaseAuth.getInstance().currentUser?.uid ?: ""
 
     override fun onCreate(savedInstanceState: Bundle?) {

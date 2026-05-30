@@ -1,3 +1,6 @@
+import java.util.Properties
+import java.io.FileInputStream
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -8,6 +11,14 @@ android {
     namespace = "com.volunteer.manager"
     compileSdk = 34
 
+    // Đọc tệp local.properties để lấy API Key an toàn (tệp này được bỏ qua bởi Git)
+    val localProperties = Properties()
+    val localPropertiesFile = rootProject.file("local.properties")
+    if (localPropertiesFile.exists()) {
+        localProperties.load(FileInputStream(localPropertiesFile))
+    }
+    val weatherApiKey = localProperties.getProperty("WEATHER_API_KEY") ?: "\"ee462d8db8119a5b1bc859d6b7560033\""
+
     defaultConfig {
         applicationId = "com.volunteer.manager"
         minSdk = 33
@@ -16,6 +27,9 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        // Khai báo API Key vào BuildConfig
+        buildConfigField("String", "WEATHER_API_KEY", weatherApiKey)
     }
 
     buildTypes {
@@ -36,8 +50,10 @@ android {
     }
     buildFeatures {
         viewBinding = true
+        buildConfig = true
     }
 }
+
 
 dependencies {
     implementation(libs.androidx.core.ktx)
