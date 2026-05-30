@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white"
+    android:paddingBottom="12dp">
+
+    <!-- Top Drag Handle -->
+    <View
+        android:layout_width="44dp"
+        android:layout_height="5dp"
+        android:background="@color/slate_200"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="12dp"
+        android:backgroundTint="@color/slate_400"/>
+
+    <!-- Dialog Header -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="16dp"
+        android:paddingBottom="10dp">
+
+        <TextView
+            android:id="@+id/tvCommentsTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Bình luận"
+            android:textColor="@color/slate_900"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"/>
+
+        <ImageView
+            android:id="@+id/ivCloseComments"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:src="@android:drawable/ic_menu_close_clear_cancel"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:focusable="true"
+            app:tint="@color/slate_500"/>
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/slate_200"/>
+
+    <!-- Scrollable Comments Area -->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@color/slate_100">
+
+        <!-- Comments RecyclerView -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvComments"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingVertical="8dp"/>
+
+        <!-- Empty State Container -->
+        <TextView
+            android:id="@+id/tvCommentsEmptyState"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Hãy là người đầu tiên bình luận về chiến dịch này!"
+            android:textColor="@color/slate_400"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:layout_margin="32dp"
+            android:visibility="gone"/>
+
+    </FrameLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/slate_200"/>
+
+    <!-- Reply active bar -->
+    <LinearLayout
+        android:id="@+id/layoutReplyHeader"
+        android:layout_width="match_parent"
+        android:layout_height="36dp"
+        android:orientation="horizontal"
+        android:background="@color/slate_100"
+        android:paddingHorizontal="16dp"
+        android:gravity="center_vertical"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/tvReplyHeaderTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Đang trả lời Tên..."
+            android:textColor="@color/slate_800"
+            android:textSize="12sp"
+            android:textStyle="bold"/>
+
+        <ImageView
+            android:id="@+id/btnCancelReply"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@android:drawable/ic_menu_close_clear_cancel"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:focusable="true"
+            app:tint="@color/slate_500"/>
+    </LinearLayout>
+
+    <!-- Input Row -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@color/white"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="8dp"
+        android:gravity="center_vertical">
+
+        <!-- Custom styled input field -->
+        <EditText
+            android:id="@+id/etCommentInput"
+            android:layout_width="0dp"
+            android:layout_height="44dp"
+            android:layout_weight="1"
+            android:hint="Viết bình luận công khai..."
+            android:textSize="13.5sp"
+            android:textColor="@color/slate_900"
+            android:textColorHint="@color/slate_400"
+            android:paddingHorizontal="16dp"
+            android:background="@drawable/bg_input"
+            android:singleLine="true"
+            android:imeOptions="actionSend"/>
+
+        <!-- Send Image Button -->
+        <ImageView
+            android:id="@+id/btnSendComment"
+            android:layout_width="38dp"
+            android:layout_height="38dp"
+            android:src="@android:drawable/ic_menu_send"
+            android:layout_marginStart="10dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:focusable="true"
+            android:padding="8dp"
+            app:tint="@color/primary"/>
+
+    </LinearLayout>
+
+</LinearLayout>

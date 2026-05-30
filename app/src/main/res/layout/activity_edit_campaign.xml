@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:background="@color/slate_50">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Header area -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="16dp"
+            android:layout_marginStart="8dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Chỉnh Sửa Chiến Dịch"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:textColor="@color/slate_900"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cập nhật các thông tin hoạt động thiện nguyện mới nhất"
+                android:textColor="@color/slate_400"
+                android:textSize="12sp"
+                android:layout_marginTop="2dp"/>
+        </LinearLayout>
+
+        <!-- Main Form Card -->
+        <androidx.cardview.widget.CardView
+            style="@style/SleekCard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="3dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <!-- Title -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Tiêu đề chiến dịch *"
+                    android:textColor="@color/slate_800"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="6dp"/>
+
+                <EditText
+                    android:id="@+id/etEditTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="52dp"
+                    android:hint="Ví dụ: Beach Cleanup 2026"
+                    android:background="@drawable/bg_input"
+                    android:paddingHorizontal="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:textColor="@color/slate_900"
+                    android:textColorHint="@color/slate_400"
+                    android:singleLine="true"
+                    android:textSize="14sp"/>
+
+                <!-- Date & Time -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Thời gian tổ chức *"
+                    android:textColor="@color/slate_800"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="6dp"/>
+
+                <EditText
+                    android:id="@+id/etEditTime"
+                    android:layout_width="match_parent"
+                    android:layout_height="52dp"
+                    android:hint="Nhấp chọn thời gian tổ chức"
+                    android:background="@drawable/bg_input"
+                    android:paddingHorizontal="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:textColor="@color/slate_900"
+                    android:textColorHint="@color/slate_400"
+                    android:focusable="false"
+                    android:clickable="true"
+                    android:cursorVisible="false"
+                    android:textSize="14sp"
+                    android:drawableEnd="@android:drawable/ic_menu_myplaces"
+                    android:drawablePadding="10dp"/>
+
+                <!-- Description -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Mô tả chi tiết chiến dịch *"
+                    android:textColor="@color/slate_800"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="6dp"/>
+
+                <EditText
+                    android:id="@+id/etEditDesc"
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp"
+                    android:hint="Mô tả mục đích chiến dịch, kế hoạch thực hiện..."
+                    android:background="@drawable/bg_input"
+                    android:padding="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:textColor="@color/slate_900"
+                    android:textColorHint="@color/slate_400"
+                    android:gravity="top|start"
+                    android:inputType="textMultiLine"
+                    android:textSize="14sp"/>
+
+                <!-- Image Preview & Selection -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Hình ảnh chiến dịch *"
+                    android:textColor="@color/slate_800"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="6dp"/>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardEditImagePreview"
+                    android:layout_width="match_parent"
+                    android:layout_height="180dp"
+                    android:layout_marginBottom="8dp"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="0dp"
+                    app:cardBackgroundColor="@color/slate_100"
+                    android:visibility="gone">
+
+                    <ImageView
+                        android:id="@+id/ivEditImagePreview"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"/>
+                </androidx.cardview.widget.CardView>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnEditSelectImage"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:text="Chọn ảnh từ Thư viện (Gallery) *"
+                    android:textColor="@color/primary"
+                    android:textAllCaps="false"
+                    android:textSize="12.5sp"
+                    android:icon="@android:drawable/ic_menu_gallery"
+                    android:layout_gravity="start"
+                    android:layout_marginBottom="16dp"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"/>
+
+                <!-- Training Points Reward -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Điểm rèn luyện thưởng *"
+                    android:textColor="@color/slate_800"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="6dp"/>
+
+                <EditText
+                    android:id="@+id/etEditPoints"
+                    android:layout_width="match_parent"
+                    android:layout_height="52dp"
+                    android:hint="Số lượng ĐRL thưởng (Ví dụ: 10, 20...)"
+                    android:text="10"
+                    android:inputType="number"
+                    android:background="@drawable/bg_input"
+                    android:paddingHorizontal="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:textColor="@color/slate_900"
+                    android:textColorHint="@color/slate_400"
+                    android:singleLine="true"
+                    android:textSize="14sp"/>
+
+                <!-- Location Coordinates -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Tọa độ vị trí địa điểm *"
+                    android:textColor="@color/slate_800"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="6dp"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="4dp">
+
+                    <EditText
+                        android:id="@+id/etEditLatitude"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="52dp"
+                        android:hint="Vĩ độ (Lat)"
+                        android:background="@drawable/bg_input"
+                        android:paddingHorizontal="16dp"
+                        android:layout_marginEnd="8dp"
+                        android:textColor="@color/slate_900"
+                        android:textColorHint="@color/slate_400"
+                        android:inputType="numberDecimal|numberSigned"
+                        android:textSize="14sp"/>
+
+                    <EditText
+                        android:id="@+id/etEditLongitude"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="52dp"
+                        android:hint="Kinh độ (Lng)"
+                        android:background="@drawable/bg_input"
+                        android:paddingHorizontal="16dp"
+                        android:layout_marginStart="8dp"
+                        android:textColor="@color/slate_900"
+                        android:textColorHint="@color/slate_400"
+                        android:inputType="numberDecimal|numberSigned"
+                        android:textSize="14sp"/>
+
+                </LinearLayout>
+
+                <!-- GPS locate button -->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnEditLocateGPS"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="44dp"
+                    android:text="Định vị vị trí hiện tại qua GPS"
+                    android:textColor="@color/primary"
+                    android:textAllCaps="false"
+                    android:textSize="12.5sp"
+                    android:icon="@android:drawable/ic_menu_mylocation"
+                    android:layout_gravity="start"
+                    android:layout_marginBottom="20dp"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"/>
+
+                <!-- Save Button -->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnSaveEditCampaign"
+                    style="@style/SleekButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="54dp"
+                    android:text="Cập nhật chiến dịch"
+                    android:textAllCaps="false"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:backgroundTint="@color/slate_900"
+                    android:layout_marginBottom="8dp"/>
+
+                <!-- Loader -->
+                <ProgressBar
+                    android:id="@+id/editProgressBar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:visibility="gone"
+                    android:indeterminateTint="@color/primary"/>
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+    </LinearLayout>
+</ScrollView>

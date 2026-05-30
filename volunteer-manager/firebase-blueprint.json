@@ -1,0 +1,34 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "Represents a user in the system (Student, ORG, or Admin).",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "Firebase Auth UID" },
+        "name": { "type": "string" },
+        "email": { "type": "string", "format": "email" },
+        "role": { "type": "string", "enum": ["Student", "ORG", "Admin"] }
+      },
+      "required": ["uid", "name", "email", "role"]
+    },
+    "Campaign": {
+      "title": "Campaign",
+      "description": "A volunteer volunteer activity/event.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "time": { "type": "string", "description": "Display time string" },
+        "description": { "type": "string" },
+        "imageUrl": { "type": "string", "format": "uri" },
+        "latitude": { "type": "number" },
+        "longitude": { "type": "number" },
+        "orgId": { "type": "string", "description": "UID of the ORG who created it" },
+        "participants": { "type": "object", "description": "Map of UID -> true" },
+        "favoriteBy": { "type": "object", "description": "Map of UID -> true" }
+      },
+      "required": ["title", "time", "description", "imageUrl", "latitude", "longitude", "orgId"]
+    }
+  }
+}

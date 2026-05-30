@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="primary">#3B82F6</color> <!-- Lighter blue for dark mode readability -->
+    <color name="primary_variant">#2563EB</color>
+    <color name="on_primary">#FFFFFF</color>
+    
+    <color name="slate_50">#0F172A</color> <!-- Deep dark background -->
+    <color name="slate_100">#1E293B</color> <!-- Surface background -->
+    <color name="slate_200">#334155</color> <!-- Slate border -->
+    <color name="slate_400">#94A3B8</color> <!-- Text muted -->
+    <color name="slate_500">#CBD5E1</color> <!-- Text secondary -->
+    <color name="slate_800">#E2E8F0</color> <!-- Text primary -->
+    <color name="slate_900">#F8FAFC</color> <!-- Text prominent -->
+    
+    <color name="black">#FFFFFF</color>
+    <color name="white">#1E293B</color> <!-- Card white becomes dark slate -->
+    <color name="bg_light">#0F172A</color>
+
+    <!-- Dark theme safe blue highlights for replies -->
+    <color name="blue_50">#1E293B</color> <!-- Match card background for bubble, or a slightly deeper shade -->
+    <color name="blue_100">#3B82F6</color> <!-- Lighter blue stroke for contrast in dark mode -->
+    <color name="blue_700">#60A5FA</color>
+    <color name="blue_800">#93C5FD</color>
+
+    <!-- Dark theme safe emerald highlights for dashboard -->
+    <color name="emerald_50">#112A22</color> <!-- Deep forest background -->
+    <color name="emerald_100">#047857</color> <!-- Emerald primary -->
+    <color name="emerald_700">#34D399</color>
+    <color name="emerald_800">#6EE7B7</color>
+</resources>

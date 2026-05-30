@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:gravity="center"
+    android:background="@color/white">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Join Volunteer Hub"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:textColor="@color/slate_900"
+        android:layout_marginBottom="8dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Create your account to start participating"
+        android:textColor="@color/slate_400"
+        android:textSize="14sp"
+        android:layout_marginBottom="32dp"/>
+
+    <EditText
+        android:id="@+id/etName"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:hint="@string/name"
+        android:background="@drawable/bg_input"
+        android:paddingHorizontal="16dp"
+        android:layout_marginBottom="12dp"
+        android:textColor="@color/slate_900"
+        android:textColorHint="@color/slate_400"/>
+
+    <EditText
+        android:id="@+id/etEmail"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:hint="@string/email"
+        android:inputType="textEmailAddress"
+        android:background="@drawable/bg_input"
+        android:paddingHorizontal="16dp"
+        android:layout_marginBottom="12dp"
+        android:textColor="@color/slate_900"
+        android:textColorHint="@color/slate_400"/>
+
+    <EditText
+        android:id="@+id/etPassword"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:hint="@string/password"
+        android:inputType="textPassword"
+        android:background="@drawable/bg_input"
+        android:paddingHorizontal="16dp"
+        android:layout_marginBottom="16dp"
+        android:textColor="@color/slate_900"
+        android:textColorHint="@color/slate_400"/>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="@drawable/bg_input"
+        android:layout_marginBottom="32dp">
+        <Spinner
+            android:id="@+id/spinnerRole"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingHorizontal="8dp" />
+    </FrameLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnRegister"
+        style="@style/SleekButton"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:text="@string/register"
+        android:textAllCaps="false"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="24dp"/>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:visibility="gone"
+        android:indeterminateTint="@color/primary"/>
+
+    <TextView
+        android:id="@+id/tvToLogin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/has_account"
+        android:textColor="@color/slate_500"
+        android:textSize="14sp"/>
+
+</LinearLayout>

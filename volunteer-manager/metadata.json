@@ -1,0 +1,6 @@
+{
+  "name": "Volunteer Manager",
+  "description": "A comprehensive Android app for managing volunteer campaigns with Firebase, Google Maps, and Weather integration.",
+  "requestFramePermissions": ["location", "camera", "notifications"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

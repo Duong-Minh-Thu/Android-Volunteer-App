@@ -1,0 +1,26 @@
+{
+  "rules": {
+    "users": {
+      "$uid": {
+        ".read": "auth != null",
+        ".write": "auth != null && auth.uid == $uid"
+      }
+    },
+    "campaigns": {
+      ".read": "auth != null",
+      "$campaignId": {
+        ".write": "root.child('users').child(auth.uid).child('role').val() == 'ORG' || root.child('users').child(auth.uid).child('role').val() == 'Admin'",
+        "participants": {
+          "$userId": {
+             ".write": "auth != null && (auth.uid == $userId || root.child('users').child(auth.uid).child('role').val() == 'Admin')"
+          }
+        },
+        "favoriteBy": {
+          "$userId": {
+             ".write": "auth != null && auth.uid == $userId"
+          }
+        }
+      }
+    }
+  }
+}

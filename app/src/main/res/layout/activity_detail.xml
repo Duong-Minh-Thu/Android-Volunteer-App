@@ -1,0 +1,455 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:background="@color/slate_100">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- Top Banner FrameLayout -->
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="260dp">
+            
+            <ImageView
+                android:id="@+id/ivDetail"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"/>
+            
+            <!-- Sleek Glassmorphic Semi-transparent Weather Badge -->
+            <TextView
+                android:id="@+id/tvWeather"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|start"
+                android:layout_margin="20dp"
+                android:background="@drawable/bg_badge"
+                android:backgroundTint="#CC0F172A"
+                android:paddingHorizontal="14dp"
+                android:paddingVertical="8dp"
+                android:textColor="@android:color/white"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:elevation="4dp"/>
+
+            <!-- Sleek Glassmorphic Circle Share Button -->
+            <ImageButton
+                android:id="@+id/btnShare"
+                android:layout_width="38dp"
+                android:layout_height="38dp"
+                android:layout_gravity="top|end"
+                android:layout_margin="20dp"
+                android:background="@drawable/bg_badge"
+                android:backgroundTint="#CC0F172A"
+                android:src="@android:drawable/ic_menu_share"
+                app:tint="@android:color/white"
+                android:elevation="4dp"
+                android:padding="8dp"
+                android:scaleType="fitCenter"
+                android:clickable="true"
+                android:focusable="true"/>
+        </FrameLayout>
+
+        <!-- Main Content Overlay Card (Overlap -24dp) -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="-24dp"
+            android:background="@drawable/bg_detail_content_card"
+            android:orientation="vertical"
+            android:elevation="4dp"
+            android:padding="20dp">
+
+            <!-- Title -->
+            <TextView
+                android:id="@+id/tvDetailTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:textColor="@color/slate_900"
+                android:lineSpacingExtra="2dp"
+                android:layout_marginBottom="16dp"/>
+
+            <!-- Information Cards Container (SleekCard) -->
+            <com.google.android.material.card.MaterialCardView
+                style="@style/SleekCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="3dp"
+                app:cardBackgroundColor="@color/white"
+                app:strokeColor="@color/slate_200"
+                app:strokeWidth="1.2dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <!-- Description Row (Top/Prominent) -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="top"
+                        android:minHeight="80dp"
+                        android:paddingVertical="8dp">
+
+                        <ImageView
+                            android:layout_width="22dp"
+                            android:layout_height="22dp"
+                            android:src="@android:drawable/ic_menu_info_details"
+                            app:tint="@color/primary"
+                            android:layout_marginEnd="12dp"
+                            android:layout_marginTop="2dp"/>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Chi tiết"
+                                android:textColor="@color/slate_500"
+                                android:textSize="10.5sp"
+                                android:textStyle="bold"/>
+                            <TextView
+                                android:id="@+id/tvDetailDesc"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/slate_800"
+                                android:textSize="13.5sp"
+                                android:lineSpacingExtra="4.5dp"
+                                android:layout_marginTop="2dp"/>
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:background="@color/slate_200"
+                        android:layout_marginVertical="6dp"/>
+
+                    <!-- Time Row -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:paddingVertical="6dp">
+                        
+                        <ImageView
+                            android:layout_width="22dp"
+                            android:layout_height="22dp"
+                            android:src="@drawable/ic_nav_calendar"
+                            app:tint="@color/primary"
+                            android:layout_marginEnd="12dp"/>
+                        
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Thời gian tổ chức"
+                                android:textColor="@color/slate_500"
+                                android:textSize="10.5sp"
+                                android:textStyle="bold"/>
+                            <TextView
+                                android:id="@+id/tvDetailTime"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/slate_900"
+                                android:textSize="13.5sp"
+                                android:textStyle="bold"
+                                android:layout_marginTop="1dp"/>
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:background="@color/slate_200"
+                        android:layout_marginVertical="6dp"/>
+
+                    <!-- Location / Distance Row -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:paddingVertical="6dp">
+
+                        <ImageView
+                            android:layout_width="22dp"
+                            android:layout_height="22dp"
+                            android:src="@android:drawable/ic_menu_myplaces"
+                            app:tint="#EF4444"
+                            android:layout_marginEnd="12dp"/>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Vị trí &amp; Khoảng cách"
+                                android:textColor="@color/slate_500"
+                                android:textSize="10.5sp"
+                                android:textStyle="bold"/>
+                            <TextView
+                                android:id="@+id/tvDistance"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/slate_900"
+                                android:textSize="13.5sp"
+                                android:textStyle="bold"
+                                android:layout_marginTop="1dp"/>
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:background="@color/slate_200"
+                        android:layout_marginVertical="6dp"/>
+
+                    <!-- Points Reward Row -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:paddingVertical="6dp">
+
+                        <ImageView
+                            android:layout_width="22dp"
+                            android:layout_height="22dp"
+                            android:src="@android:drawable/btn_star_big_on"
+                            app:tint="@color/primary"
+                            android:layout_marginEnd="12dp"/>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Điểm rèn luyện nhận được"
+                                android:textColor="@color/slate_500"
+                                android:textSize="10.5sp"
+                                android:textStyle="bold"/>
+                            <TextView
+                                android:id="@+id/tvDetailRewardPoints"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="10 ĐRL"
+                                android:textColor="@color/primary"
+                                android:textSize="13.5sp"
+                                android:textStyle="bold"
+                                android:layout_marginTop="1dp"/>
+                        </LinearLayout>
+                    </LinearLayout>
+
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Action Bar: Pill-style matching item_campaign.xml -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <!-- Like Button Pill -->
+                <LinearLayout
+                    android:id="@+id/btnLike"
+                    android:layout_width="0dp"
+                    android:layout_height="36dp"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="3dp"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:background="@drawable/bg_pill_action"
+                    android:clickable="true"
+                    android:focusable="true">
+
+                    <ImageView
+                        android:id="@+id/ivLikeIcon"
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:src="@drawable/ic_like_outline"
+                        app:tint="@color/slate_500"/>
+
+                    <TextView
+                        android:id="@+id/tvLikeBtnText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="4dp"
+                        android:text="0"
+                        android:textColor="@color/slate_500"
+                        android:textStyle="bold"
+                        android:textSize="11.5sp"/>
+                </LinearLayout>
+
+                <!-- Join Button Pill -->
+                <LinearLayout
+                    android:id="@+id/btnJoin"
+                    android:layout_width="0dp"
+                    android:layout_height="36dp"
+                    android:layout_weight="1"
+                    android:layout_marginHorizontal="3dp"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:background="@drawable/bg_pill_action"
+                    android:clickable="true"
+                    android:focusable="true">
+
+                    <ImageView
+                        android:id="@+id/ivJoinIcon"
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:src="@android:drawable/ic_menu_add"
+                        app:tint="@color/slate_500"/>
+
+                    <TextView
+                        android:id="@+id/tvJoinBtnText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="4dp"
+                        android:text="0"
+                        android:textColor="@color/slate_500"
+                        android:textStyle="bold"
+                        android:textSize="11.5sp"/>
+                </LinearLayout>
+
+                <!-- Comments Pill -->
+                <LinearLayout
+                    android:id="@+id/btnDetailComments"
+                    android:layout_width="0dp"
+                    android:layout_height="36dp"
+                    android:layout_weight="1"
+                    android:layout_marginHorizontal="3dp"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:background="@drawable/bg_pill_action"
+                    android:clickable="true"
+                    android:focusable="true">
+
+                    <ImageView
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:src="@drawable/ic_comment_outline"
+                        app:tint="@color/slate_500"/>
+
+                    <TextView
+                        android:id="@+id/tvCommentsBtnText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="4dp"
+                        android:text="0"
+                        android:textColor="@color/slate_500"
+                        android:textStyle="bold"
+                        android:textSize="11.5sp"/>
+                </LinearLayout>
+
+                <!-- View Participants Pill (ORG/Admin only) -->
+                <LinearLayout
+                    android:id="@+id/btnViewParticipants"
+                    android:layout_width="0dp"
+                    android:layout_height="36dp"
+                    android:layout_weight="1"
+                    android:layout_marginHorizontal="3dp"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:background="@drawable/bg_pill_action"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:visibility="gone">
+
+                    <ImageView
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:src="@android:drawable/ic_menu_my_calendar"
+                        app:tint="@color/slate_500"/>
+
+                    <TextView
+                        android:id="@+id/tvParticipantsBtnText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="4dp"
+                        android:text="0"
+                        android:textColor="@color/slate_500"
+                        android:textStyle="bold"
+                        android:textSize="11.5sp"/>
+                </LinearLayout>
+
+                <!-- Edit Campaign Pill (creator/admin only) -->
+                <LinearLayout
+                    android:id="@+id/btnEditCampaign"
+                    android:layout_width="0dp"
+                    android:layout_height="36dp"
+                    android:layout_weight="1"
+                    android:layout_marginStart="3dp"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:background="@drawable/bg_pill_action"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:visibility="gone">
+
+                    <ImageView
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:src="@android:drawable/ic_menu_edit"
+                        app:tint="@color/slate_500"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <!-- Map View Section: Elevated Rounded CardView (Designer Trick) -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Bản đồ địa điểm"
+                android:textColor="@color/slate_900"
+                android:textSize="14.5sp"
+                android:textStyle="bold"
+                android:layout_marginTop="28dp"
+                android:layout_marginBottom="12dp"/>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="220dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="2dp"
+                android:layout_marginBottom="12dp">
+                
+                <fragment
+                    android:id="@+id/map"
+                    android:name="com.google.android.gms.maps.SupportMapFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+            </androidx.cardview.widget.CardView>
+
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</ScrollView>

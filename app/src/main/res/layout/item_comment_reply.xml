@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:paddingStart="12dp"
+    android:paddingEnd="0dp"
+    android:paddingVertical="5dp"
+    android:gravity="start">
+
+    <!-- Tiny Circular Avatar for Reply -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardReplyAvatar"
+        android:layout_width="26dp"
+        android:layout_height="26dp"
+        app:cardCornerRadius="13dp"
+        app:cardElevation="0dp"
+        app:cardBackgroundColor="@color/primary"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="2dp">
+        
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/tvReplyAvatarChar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:textSize="11sp"
+                android:textStyle="bold"
+                android:text="U"/>
+
+            <ImageView
+                android:id="@+id/ivReplyAvatar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:visibility="gone"/>
+
+        </FrameLayout>
+    </androidx.cardview.widget.CardView>
+
+    <!-- Reply Bubble content -->
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <!-- Speech Bubble Container -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/bg_comment_bubble_reply"
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="6dp">
+
+            <TextView
+                android:id="@+id/tvReplyToHeader"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Đang phản hồi Tên"
+                android:textColor="@color/slate_400"
+                android:textSize="10.5sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="2dp"
+                android:visibility="gone"/>
+
+            <TextView
+                android:id="@+id/tvReplyName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tên Người Dùng - Vai trò"
+                android:textColor="@color/slate_900"
+                android:textSize="12.5sp"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/tvReplyText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nội dung câu trả lời..."
+                android:textColor="@color/slate_800"
+                android:textSize="12.5sp"
+                android:layout_marginTop="2dp"/>
+
+        </LinearLayout>
+
+        <!-- Under-bubble row: relative time and action buttons for replies -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="2dp">
+
+            <TextView
+                android:id="@+id/tvReplyTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Vừa xong"
+                android:textColor="@color/slate_400"
+                android:textSize="9.5sp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" • "
+                android:textColor="@color/slate_400"
+                android:textSize="9.5sp"/>
+
+            <TextView
+                android:id="@+id/tvReplyActionBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Phản hồi"
+                android:textColor="@color/slate_500"
+                android:textStyle="bold"
+                android:textSize="9.5sp"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

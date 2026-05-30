@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="16dp"
+    android:layout_marginEnd="16dp"
+    android:layout_marginTop="4dp"
+    android:layout_marginBottom="4dp"
+    app:cardCornerRadius="10dp"
+    app:cardElevation="1dp"
+    app:cardBackgroundColor="@color/white">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="12dp"
+        android:gravity="center_vertical">
+
+        <!-- Checkmark icon wrapper -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            app:cardCornerRadius="18dp"
+            app:cardElevation="0dp"
+            app:cardBackgroundColor="@color/emerald_50"
+            android:layout_marginEnd="12dp">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@android:drawable/checkbox_on_background"
+                android:layout_gravity="center"
+                app:tint="@color/emerald_700"/>
+        </androidx.cardview.widget.CardView>
+
+        <!-- Main text fields -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvRecordTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Chiến dịch dọn rác bãi biển"
+                android:textColor="@color/slate_800"
+                android:textSize="13.5sp"
+                android:textStyle="bold"
+                android:ellipsize="end"
+                android:maxLines="2"/>
+
+            <TextView
+                android:id="@+id/tvRecordDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Đã hoàn thành: 25/05/2026"
+                android:textColor="@color/slate_400"
+                android:textSize="11.5sp"
+                android:layout_marginTop="2dp"/>
+
+        </LinearLayout>
+
+        <!-- Points badge -->
+        <TextView
+            android:id="@+id/tvRecordPoints"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="+10 ĐRL"
+            android:textColor="@color/emerald_700"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            android:background="@drawable/bg_badge"
+            android:backgroundTint="@color/emerald_50"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="4dp"
+            android:layout_marginStart="8dp"/>
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

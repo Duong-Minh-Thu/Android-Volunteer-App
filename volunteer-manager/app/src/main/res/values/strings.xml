@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Volunteer Manager</string>
+    <string name="login">Login</string>
+    <string name="register">Register</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="name">Name</string>
+    <string name="role">Role (Student/ORG)</string>
+    <string name="no_account">Don\'t have an account? Register</string>
+    <string name="has_account">Already have an account? Login</string>
+    <string name="join">Join</string>
+    <string name="weather">Weather</string>
+    <string name="distance">Distance: </string>
+    <string name="google_maps_key" translatable="false">YOUR_API_KEY_HERE</string>
+</resources>

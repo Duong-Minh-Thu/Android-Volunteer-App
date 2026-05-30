@@ -1,0 +1,656 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/slate_100"
+    tools:context=".ui.MainActivity">
+
+    <!-- Toolbar (White background, Slate text) -->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/white"
+        android:elevation="2dp"
+        app:titleTextColor="@color/slate_800"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <!-- Progress Indicator for Role Verification -->
+    <ProgressBar
+        android:id="@+id/pbMainLoading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:indeterminateTint="@color/primary"/>
+
+    <!-- ================= VOLUNTEER ROLE LAYOUT ================= -->
+    <LinearLayout
+        android:id="@+id/layoutVolunteer"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        app:layout_constraintBottom_toTopOf="@id/bottomNavigation">
+
+        <!-- Facebook-Style search bar -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="10dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/etSearch"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:hint="Tìm kiếm sự kiện tình nguyện..."
+                android:textSize="14sp"
+                android:textColor="@color/slate_900"
+                android:textColorHint="@color/slate_400"
+                android:paddingHorizontal="16dp"
+                android:drawableStart="@android:drawable/ic_menu_search"
+                android:drawablePadding="10dp"
+                android:background="@drawable/bg_input"
+                android:singleLine="true"
+                android:imeOptions="actionSearch"/>
+        </LinearLayout>
+
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swipeRefresh"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvCampaigns"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipToPadding="false"
+                android:paddingVertical="6dp" />
+
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+    </LinearLayout>
+
+
+    <!-- ================= ORG / ADMIN ROLE LAYOUT ================= -->
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/layoutDashboard"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        app:layout_constraintBottom_toTopOf="@id/bottomNavigation">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <!-- Welcome Text -->
+            <TextView
+                android:id="@+id/tvWelcomeOrg"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Chào mừng bạn quay lại!"
+                android:textColor="@color/slate_900"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="16dp"/>
+
+            <!-- Analytics Row -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="24dp">
+
+                <!-- Campaigns Card -->
+                <androidx.cardview.widget.CardView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="100dp"
+                    android:layout_marginEnd="8dp"
+                    app:cardCornerRadius="16dp"
+                    app:cardElevation="3dp">
+                    
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:background="@drawable/bg_dashboard_card_blue"
+                        android:padding="12dp">
+
+                        <TextView
+                            android:id="@+id/tvDashboardCampaignsCount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="0"
+                            android:textColor="@color/blue_800"
+                            android:textSize="28sp"
+                            android:textStyle="bold"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Chiến Dịch Đã Tạo"
+                            android:textColor="@color/blue_700"
+                            android:textSize="11sp"
+                            android:textStyle="bold"
+                            android:layout_marginTop="4dp"/>
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <!-- Volunteers Card -->
+                <androidx.cardview.widget.CardView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="100dp"
+                    android:layout_marginStart="8dp"
+                    app:cardCornerRadius="16dp"
+                    app:cardElevation="3dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:background="@drawable/bg_dashboard_card_emerald"
+                        android:padding="12dp">
+
+                        <TextView
+                            android:id="@+id/tvDashboardVolunteersCount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="0"
+                            android:textColor="@color/emerald_800"
+                            android:textSize="28sp"
+                            android:textStyle="bold"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Lượt Đăng Ký"
+                            android:textColor="@color/emerald_700"
+                            android:textSize="11sp"
+                            android:textStyle="bold"
+                            android:layout_marginTop="4dp"/>
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+            </LinearLayout>
+
+            <!-- Section Title: My Campaigns -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Quản lý Chiến dịch của tôi"
+                android:textColor="@color/slate_800"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="12dp"/>
+
+            <!-- ORG Created Campaigns RecyclerView -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvOrgCampaigns"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="false"/>
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+
+    <!-- ================= EMBEDDED PROFILE LAYOUT ================= -->
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/layoutProfile"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        app:layout_constraintBottom_toTopOf="@id/bottomNavigation"
+        android:background="@color/slate_100">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Top Header: Gradient/Primary banner with Avatar, Name, Email -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="220dp"
+                android:background="#0F172A"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:padding="24dp">
+
+                <!-- Circular Avatar Card (Interactive) -->
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardProfileAvatar"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackground"
+                    app:cardCornerRadius="40dp"
+                    app:cardElevation="4dp"
+                    app:cardBackgroundColor="@color/primary">
+                    
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:id="@+id/tvProfileAvatarChar"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:textColor="@android:color/white"
+                            android:textSize="32sp"
+                            android:textStyle="bold"
+                            android:text="U"/>
+
+                        <ImageView
+                            android:id="@+id/ivProfileAvatar"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:scaleType="centerCrop"
+                            android:visibility="gone"/>
+
+                    </FrameLayout>
+                </androidx.cardview.widget.CardView>
+
+                <TextView
+                    android:id="@+id/tvProfileName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Tên Tình Nguyện Viên"
+                    android:textColor="@android:color/white"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:layout_marginTop="12dp"/>
+
+                <TextView
+                    android:id="@+id/tvProfileEmail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="volunteer@example.com"
+                    android:textColor="#B3FFFFFF"
+                    android:textSize="13sp"
+                    android:layout_marginTop="2dp"/>
+
+                <!-- Badges Row -->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center">
+
+                    <!-- Role Badge -->
+                    <TextView
+                        android:id="@+id/tvProfileRoleBadge"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_badge"
+                        android:textColor="@color/primary"
+                        android:text="Student"
+                        android:textSize="10sp"
+                        android:textStyle="bold"
+                        android:paddingHorizontal="10dp"
+                        android:paddingVertical="4dp"/>
+
+
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- Information Cards -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <!-- Detail Personal Info Card -->
+                <androidx.cardview.widget.CardView
+                    style="@style/SleekCard"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="2dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="16dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Thông tin cá nhân"
+                            android:textColor="@color/slate_900"
+                            android:textSize="14sp"
+                            android:textStyle="bold"
+                            android:layout_marginBottom="12dp"/>
+
+                        <!-- Name Row -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:paddingVertical="8dp">
+                            <TextView
+                                android:layout_width="100dp"
+                                android:layout_height="wrap_content"
+                                android:text="Họ và tên:"
+                                android:textColor="@color/slate_500"
+                                android:textSize="13sp"/>
+                            <TextView
+                                android:id="@+id/tvProfileDetailName"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="-"
+                                android:textColor="@color/slate_800"
+                                android:textSize="13sp"
+                                android:textStyle="bold"/>
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="0.5dp"
+                            android:background="@color/slate_200"/>
+
+                        <!-- Email Row -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:paddingVertical="8dp">
+                            <TextView
+                                android:layout_width="100dp"
+                                android:layout_height="wrap_content"
+                                android:text="Địa chỉ Email:"
+                                android:textColor="@color/slate_500"
+                                android:textSize="13sp"/>
+                            <TextView
+                                android:id="@+id/tvProfileDetailEmail"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="-"
+                                android:textColor="@color/slate_800"
+                                android:textSize="13sp"
+                                android:textStyle="bold"/>
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="0.5dp"
+                            android:background="@color/slate_200"/>
+
+                        <!-- Role Row -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:paddingVertical="8dp">
+                            <TextView
+                                android:layout_width="100dp"
+                                android:layout_height="wrap_content"
+                                android:text="Vai trò:"
+                                android:textColor="@color/slate_500"
+                                android:textSize="13sp"/>
+                            <TextView
+                                android:id="@+id/tvProfileDetailRole"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="-"
+                                android:textColor="@color/slate_800"
+                                android:textSize="13sp"
+                                android:textStyle="bold"/>
+                        </LinearLayout>
+
+                        <View
+                            android:id="@+id/viewProfileDetailPointsDivider"
+                            android:layout_width="match_parent"
+                            android:layout_height="0.5dp"
+                            android:background="@color/slate_200"/>
+
+                        <!-- Points Row -->
+                        <LinearLayout
+                            android:id="@+id/layoutProfileDetailPoints"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:paddingVertical="8dp">
+                            <TextView
+                                android:layout_width="100dp"
+                                android:layout_height="wrap_content"
+                                android:text="Điểm rèn luyện:"
+                                android:textColor="@color/slate_500"
+                                android:textSize="13sp"/>
+                            <TextView
+                                android:id="@+id/tvProfileDetailPoints"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="0 ĐRL"
+                                android:textColor="@color/primary"
+                                android:textSize="13sp"
+                                android:textStyle="bold"/>
+                        </LinearLayout>
+
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <!-- My Activities (Campaigns) Section -->
+                <TextView
+                    android:id="@+id/tvProfileCampaignsSectionTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Chiến dịch đã tham gia"
+                    android:textColor="@color/slate_800"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="12dp"
+                    android:layout_marginStart="4dp"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvProfileCampaigns"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:nestedScrollingEnabled="false"
+                    android:layout_marginBottom="24dp"/>
+
+                <!-- Logout button -->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnProfileLogout"
+                    style="@style/SleekButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="54dp"
+                    android:text="Đăng xuất tài khoản"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:backgroundTint="#EF4444"
+                    android:layout_marginBottom="32dp"
+                    app:icon="@android:drawable/ic_lock_power_off"
+                    app:iconGravity="textStart"
+                    app:iconTint="@color/white"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+    <!-- ================= LEADERBOARD LAYOUT ================= -->
+    <LinearLayout
+        android:id="@+id/layoutLeaderboard"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:visibility="gone"
+        android:background="@color/slate_100"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        app:layout_constraintBottom_toTopOf="@id/bottomNavigation">
+
+        <!-- Selector Row: styled pill buttons in a horizontal scroll -->
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="none"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="12dp"
+            android:background="@color/white"
+            android:elevation="1dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <!-- Weekly Pill -->
+                <TextView
+                    android:id="@+id/tvFilterWeekly"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Tuần này"
+                    android:textSize="12.5sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/white"
+                    android:background="@drawable/bg_pill_active"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:clickable="true"
+                    android:focusable="true"/>
+
+                <!-- Monthly Pill -->
+                <TextView
+                    android:id="@+id/tvFilterMonthly"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Tháng này"
+                    android:textSize="12.5sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/slate_700"
+                    android:background="@drawable/bg_pill_inactive"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:clickable="true"
+                    android:focusable="true"/>
+
+                <!-- Yearly Pill -->
+                <TextView
+                    android:id="@+id/tvFilterYearly"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Năm nay"
+                    android:textSize="12.5sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/slate_700"
+                    android:background="@drawable/bg_pill_inactive"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:clickable="true"
+                    android:focusable="true"/>
+
+                <!-- All Time Pill -->
+                <TextView
+                    android:id="@+id/tvFilterAllTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Tất cả"
+                    android:textSize="12.5sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/slate_700"
+                    android:background="@drawable/bg_pill_inactive"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="8dp"
+                    android:clickable="true"
+                    android:focusable="true"/>
+
+            </LinearLayout>
+        </HorizontalScrollView>
+
+        <!-- Leaderboard List -->
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvLeaderboard"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipToPadding="false"
+                android:paddingVertical="8dp"/>
+
+            <!-- Empty/Loading State -->
+            <TextView
+                android:id="@+id/tvLeaderboardEmptyState"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Chưa có bảng xếp hạng khả dụng!"
+                android:textColor="@color/slate_400"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:visibility="gone"/>
+        </FrameLayout>
+
+    </LinearLayout>
+
+    <!-- Floating Action Button for ORG (Create Event) -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabAdd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:src="@android:drawable/ic_input_add"
+        android:visibility="gone"
+        app:backgroundTint="@color/primary"
+        app:tint="@color/white"
+        app:elevation="6dp"
+        app:layout_constraintBottom_toTopOf="@id/bottomNavigation"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <!-- ================= BOTTOM NAVIGATION BAR ================= -->
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNavigation"
+        android:layout_width="match_parent"
+        android:layout_height="66dp"
+        android:background="@color/white"
+        app:elevation="12dp"
+        app:menu="@menu/bottom_nav_menu"
+        app:labelVisibilityMode="labeled"
+        app:itemIconTint="@color/bottom_nav_tint"
+        app:itemTextColor="@color/bottom_nav_tint"
+        app:itemIconSize="21dp"
+        app:itemRippleColor="@color/slate_100"
+        app:itemTextAppearanceActive="@style/BottomNavTextActive"
+        app:itemTextAppearanceInactive="@style/BottomNavTextInactive"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

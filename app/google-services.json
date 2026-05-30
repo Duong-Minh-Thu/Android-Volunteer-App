@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "307512646576",
+    "firebase_url": "https://quan-ly-tinh-nguyen-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "quan-ly-tinh-nguyen",
+    "storage_bucket": "quan-ly-tinh-nguyen.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:307512646576:android:3c6346b2d8ec7ccf5d9475",
+        "android_client_info": {
+          "package_name": "com.volunteer.manager"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "307512646576-bffhqask3iii6b87bc5olk429igl7m22.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAabBTUS8bDhAjUeOCzQROqKy9mHy5DtLU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "307512646576-bffhqask3iii6b87bc5olk429igl7m22.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

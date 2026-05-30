@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="primary">#2563EB</color>
+    <color name="primary_variant">#1D4ED8</color>
+    <color name="on_primary">#FFFFFF</color>
+    
+    <color name="slate_50">#F8FAFC</color>
+    <color name="slate_100">#F1F5F9</color>
+    <color name="slate_200">#E2E8F0</color>
+    <color name="slate_300">#CBD5E1</color>
+    <color name="slate_400">#94A3B8</color>
+    <color name="slate_500">#64748B</color>
+    <color name="slate_600">#475569</color>
+    <color name="slate_700">#334155</color>
+    <color name="slate_800">#1E293B</color>
+    <color name="slate_900">#0F172A</color>
+    
+    <color name="black">#000000</color>
+    <color name="white">#FFFFFF</color>
+    <color name="bg_light">#F1F5F9</color>
+
+    <!-- Blue Gradient Palette -->
+    <color name="blue_50">#EFF6FF</color>
+    <color name="blue_100">#DBEAFE</color>
+    <color name="blue_700">#1D4ED8</color>
+    <color name="blue_800">#1E40AF</color>
+
+    <!-- Emerald Gradient Palette -->
+    <color name="emerald_50">#ECFDF5</color>
+    <color name="emerald_100">#D1FAE5</color>
+    <color name="emerald_700">#047857</color>
+    <color name="emerald_800">#065F46</color>
+</resources>

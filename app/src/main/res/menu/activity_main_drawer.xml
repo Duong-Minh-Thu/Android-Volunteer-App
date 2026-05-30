@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:id="@+id/grp_main" android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_all_campaigns"
+            android:icon="@android:drawable/ic_menu_today"
+            android:title="Tất cả sự kiện" />
+        
+        <item
+            android:id="@+id/nav_joined_campaigns"
+            android:icon="@android:drawable/checkbox_on_background"
+            android:title="Sự kiện đã tham gia" />
+            
+        <item
+            android:id="@+id/nav_favorite_campaigns"
+            android:icon="@android:drawable/btn_star_big_on"
+            android:title="Sự kiện yêu thích" />
+
+        <item
+            android:id="@+id/nav_my_campaigns"
+            android:icon="@android:drawable/ic_menu_myplaces"
+            android:title="Sự kiện của tôi"
+            android:visible="false" />
+    </group>
+
+    <item android:title="Cá nhân">
+        <menu>
+            <item
+                android:id="@+id/nav_profile"
+                android:icon="@android:drawable/ic_menu_myplaces"
+                android:title="Trang cá nhân" />
+            <item
+                android:id="@+id/nav_logout"
+                android:icon="@android:drawable/ic_lock_power_off"
+                android:title="Đăng xuất" />
+        </menu>
+    </item>
+
+</menu>
