@@ -400,22 +400,64 @@ class EditCampaignActivity : AppCompatActivity(), OnMapReadyCallback {
             return
         }
 
-        try {
-            val geocoder = Geocoder(this, Locale.getDefault())
-            val addresses = geocoder.getFromLocationName(addressStr, 1)
-            if (!addresses.isNullOrEmpty()) {
-                val address = addresses[0]
-                val latLng = LatLng(address.latitude, address.longitude)
-                
-                mMap?.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15f))
-                updateSelectedLocation(latLng)
-                Toast.makeText(this, "Đã tìm thấy địa chỉ: ${address.getAddressLine(0)}", Toast.LENGTH_SHORT).show()
-            } else {
-                Toast.makeText(this, "Không tìm thấy địa chỉ này!", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, "Đang tìm kiếm vị trí...", Toast.LENGTH_SHORT).show()
+
+        Thread {
+            var latLng: LatLng? = null
+            var displayName: String? = null
+
+            // 1. Thử dùng Geocoder mặc định của hệ thống Android
+            try {
+                val geocoder = Geocoder(this, Locale.getDefault())
+                val addresses = geocoder.getFromLocationName(addressStr, 1)
+                if (!addresses.isNullOrEmpty()) {
+                    val address = addresses[0]
+                    latLng = LatLng(address.latitude, address.longitude)
+                    displayName = address.getAddressLine(0)
+                }
+            } catch (e: Exception) {
+                // Geocoder hệ thống lỗi, sẽ tự động chuyển qua Nominatim dự phòng
             }
-        } catch (e: Exception) {
-            Toast.makeText(this, "Lỗi tìm kiếm địa chỉ: ${e.message}", Toast.LENGTH_SHORT).show()
-        }
+
+            // 2. Nếu Geocoder lỗi hoặc không tìm thấy, gọi Nominatim (OpenStreetMap API) dự phòng
+            if (latLng == null) {
+                try {
+                    val urlString = "https://nominatim.openstreetmap.org/search?q=" +
+                            java.net.URLEncoder.encode(addressStr, "UTF-8") + "&format=json&limit=1"
+                    val url = java.net.URL(urlString)
+                    val connection = url.openConnection() as java.net.HttpURLConnection
+                    connection.requestMethod = "GET"
+                    connection.setRequestProperty("User-Agent", "VolunteerManagerAndroidApp/1.0")
+                    connection.connectTimeout = 5000
+                    connection.readTimeout = 5000
+
+                    if (connection.responseCode == 200) {
+                        val response = connection.inputStream.bufferedReader().use { it.readText() }
+                        val jsonArray = org.json.JSONArray(response)
+                        if (jsonArray.length() > 0) {
+                            val jsonObj = jsonArray.getJSONObject(0)
+                            val lat = jsonObj.getDouble("lat")
+                            val lon = jsonObj.getDouble("lon")
+                            latLng = LatLng(lat, lon)
+                            displayName = jsonObj.optString("display_name", addressStr)
+                        }
+                    }
+                } catch (e: Exception) {
+                    // Lỗi kết nối HTTP
+                }
+            }
+
+            // 3. Cập nhật kết quả lên giao diện trên Main Thread
+            runOnUiThread {
+                if (latLng != null) {
+                    mMap?.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng!!, 15f))
+                    updateSelectedLocation(latLng!!)
+                    Toast.makeText(this, "Đã tìm thấy: ${displayName ?: addressStr}", Toast.LENGTH_LONG).show()
+                } else {
+                    Toast.makeText(this, "Không tìm thấy địa chỉ hoặc kết nối mạng bị lỗi!", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }.start()
     }
 
     // UX: Tự động ẩn bàn phím khi bấm ra ngoài các trường nhập liệu
