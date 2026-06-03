@@ -416,10 +416,46 @@ class EditCampaignActivity : AppCompatActivity(), OnMapReadyCallback {
                     displayName = address.getAddressLine(0)
                 }
             } catch (e: Exception) {
-                // Geocoder hệ thống lỗi, sẽ tự động chuyển qua Nominatim dự phòng
+                // Geocoder hệ thống lỗi
             }
 
-            // 2. Nếu Geocoder lỗi hoặc không tìm thấy, gọi Nominatim (OpenStreetMap API) dự phòng
+            // 2. Thử dùng Google Geocoding API bằng API Key của ứng dụng
+            if (latLng == null) {
+                try {
+                    val apiKey = getString(R.string.google_maps_key)
+                    if (apiKey.isNotEmpty() && apiKey != "YOUR_API_KEY_HERE") {
+                        val urlString = "https://maps.googleapis.com/maps/api/geocode/json?address=" +
+                                java.net.URLEncoder.encode(addressStr, "UTF-8") + "&key=" + apiKey
+                        val url = java.net.URL(urlString)
+                        val connection = url.openConnection() as java.net.HttpURLConnection
+                        connection.requestMethod = "GET"
+                        connection.connectTimeout = 5000
+                        connection.readTimeout = 5000
+
+                        if (connection.responseCode == 200) {
+                            val response = connection.inputStream.bufferedReader().use { it.readText() }
+                            val jsonObj = org.json.JSONObject(response)
+                            val status = jsonObj.optString("status", "")
+                            if (status == "OK") {
+                                val resultsArray = jsonObj.getJSONArray("results")
+                                if (resultsArray.length() > 0) {
+                                    val result = resultsArray.getJSONObject(0)
+                                    val geometry = result.getJSONObject("geometry")
+                                    val locationObj = geometry.getJSONObject("location")
+                                    val lat = locationObj.getDouble("lat")
+                                    val lng = locationObj.getDouble("lng")
+                                    latLng = LatLng(lat, lng)
+                                    displayName = result.optString("formatted_address", addressStr)
+                                }
+                            }
+                        }
+                    }
+                } catch (e: Exception) {
+                    // Google Geocoding API lỗi hoặc chưa kích hoạt
+                }
+            }
+
+            // 3. Nếu các phương án trên đều thất bại, gọi Nominatim (OpenStreetMap API) dự phòng
             if (latLng == null) {
                 try {
                     val urlString = "https://nominatim.openstreetmap.org/search?q=" +
@@ -443,15 +479,15 @@ class EditCampaignActivity : AppCompatActivity(), OnMapReadyCallback {
                         }
                     }
                 } catch (e: Exception) {
-                    // Lỗi kết nối HTTP
+                    // Lỗi kết nối HTTP Nominatim
                 }
             }
 
-            // 3. Cập nhật kết quả lên giao diện trên Main Thread
+            // 4. Cập nhật kết quả lên giao diện trên Main Thread
             runOnUiThread {
                 if (latLng != null) {
-                    mMap?.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng!!, 15f))
-                    updateSelectedLocation(latLng!!)
+                    mMap?.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15f))
+                    updateSelectedLocation(latLng)
                     Toast.makeText(this, "Đã tìm thấy: ${displayName ?: addressStr}", Toast.LENGTH_LONG).show()
                 } else {
                     Toast.makeText(this, "Không tìm thấy địa chỉ hoặc kết nối mạng bị lỗi!", Toast.LENGTH_SHORT).show()
