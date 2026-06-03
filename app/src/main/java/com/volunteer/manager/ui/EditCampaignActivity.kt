@@ -36,19 +36,31 @@ import androidx.core.app.ActivityCompat
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.firebase.database.FirebaseDatabase
+import com.volunteer.manager.R
 import com.volunteer.manager.databinding.ActivityEditCampaignBinding
 import com.volunteer.manager.models.Campaign
 import com.volunteer.manager.utils.ImageLoader
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
+import android.location.Geocoder
+import android.view.inputmethod.EditorInfo
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.Marker
+import com.google.android.gms.maps.model.MarkerOptions
 
-class EditCampaignActivity : AppCompatActivity() {
+class EditCampaignActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var binding: ActivityEditCampaignBinding
     private lateinit var campaign: Campaign
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private val calendar = Calendar.getInstance()
     private var selectedBase64Image: String? = null
+    private var mMap: GoogleMap? = null
+    private var mMarker: Marker? = null
 
     // Launcher xử lý chọn ảnh mới từ Gallery để thay thế ảnh banner cũ
     private val pickImageLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
@@ -99,6 +111,23 @@ class EditCampaignActivity : AppCompatActivity() {
         // Bấm lấy tọa độ GPS tự động cập nhật
         binding.btnEditLocateGPS.setOnClickListener {
             checkAndFetchGPS()
+        }
+
+        // Khởi tạo bản đồ picker cho chỉnh sửa
+        val mapFragment = supportFragmentManager.findFragmentById(R.id.map_picker_edit) as SupportMapFragment
+        mapFragment.getMapAsync(this)
+
+        // Tìm vị trí theo địa chỉ
+        binding.btnEditSearchAddress.setOnClickListener {
+            searchAddress()
+        }
+        binding.etEditAddressSearch.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                searchAddress()
+                true
+            } else {
+                false
+            }
         }
 
         // Bấm lưu lại các thay đổi của chiến dịch
@@ -198,8 +227,9 @@ class EditCampaignActivity : AppCompatActivity() {
                 binding.btnEditLocateGPS.text = "Lấy tọa độ vị trí hiện tại qua GPS"
 
                 if (location != null) {
-                    binding.etEditLatitude.setText("%.6f".format(Locale.US, location.latitude))
-                    binding.etEditLongitude.setText("%.6f".format(Locale.US, location.longitude))
+                    val latLng = LatLng(location.latitude, location.longitude)
+                    mMap?.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15f))
+                    updateSelectedLocation(latLng)
                     Toast.makeText(this, "Đã tự động cập nhật tọa độ GPS mới!", Toast.LENGTH_SHORT).show()
                 } else {
                     Toast.makeText(this, "Không tìm thấy GPS. Vui lòng điền tọa độ thủ công!", Toast.LENGTH_LONG).show()
@@ -323,6 +353,69 @@ class EditCampaignActivity : AppCompatActivity() {
         binding.etEditLongitude.isEnabled = !isLoading
         binding.btnEditLocateGPS.isEnabled = !isLoading
         binding.btnEditSelectImage.isEnabled = !isLoading
+    }
+
+    override fun onMapReady(googleMap: GoogleMap) {
+        mMap = googleMap
+        
+        // UX thông minh: Ngăn chặn ScrollView cướp sự kiện vuốt bản đồ picker
+        val mapFragment = supportFragmentManager.findFragmentById(R.id.map_picker_edit) as SupportMapFragment
+        mapFragment.view?.setOnTouchListener { _, event ->
+            when (event.action) {
+                MotionEvent.ACTION_DOWN -> {
+                    binding.root.requestDisallowInterceptTouchEvent(true)
+                }
+                MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
+                    binding.root.requestDisallowInterceptTouchEvent(false)
+                }
+            }
+            false
+        }
+
+        // Lắng nghe sự kiện click trên bản đồ
+        mMap?.setOnMapClickListener { latLng ->
+            updateSelectedLocation(latLng)
+        }
+
+        // Cắm marker ban đầu tại vị trí hiện tại của chiến dịch đang chỉnh sửa
+        val lat = campaign.latitude
+        val lng = campaign.longitude
+        val location = LatLng(lat, lng)
+        updateSelectedLocation(location)
+        mMap?.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 14f))
+    }
+
+    private fun updateSelectedLocation(latLng: LatLng) {
+        mMarker?.remove()
+        mMarker = mMap?.addMarker(MarkerOptions().position(latLng).title("Vị trí đã chọn"))
+        
+        binding.etEditLatitude.setText("%.6f".format(Locale.US, latLng.latitude))
+        binding.etEditLongitude.setText("%.6f".format(Locale.US, latLng.longitude))
+    }
+
+    private fun searchAddress() {
+        val addressStr = binding.etEditAddressSearch.text.toString().trim()
+        if (addressStr.isEmpty()) {
+            Toast.makeText(this, "Vui lòng nhập địa chỉ cần tìm!", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        try {
+            val geocoder = Geocoder(this, Locale.getDefault())
+            val addresses = geocoder.getFromLocationName(addressStr, 1)
+            if (!addresses.isNullOrEmpty()) {
+                val address = addresses[0]
+                val latLng = LatLng(address.latitude, address.longitude)
+                
+                mMap?.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15f))
+                updateSelectedLocation(latLng)
+                Toast.makeText(this, "Đã tìm thấy địa chỉ: ${address.getAddressLine(0)}", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(this, "Không tìm thấy địa chỉ này!", Toast.LENGTH_SHORT).show()
+            }
+        } catch (e: Exception) {
+            Toast.makeText(this, "Lỗi tìm kiếm địa chỉ: ${e.message}", Toast.LENGTH_SHORT).show()
+        }
     }
 
     // UX: Tự động ẩn bàn phím khi bấm ra ngoài các trường nhập liệu

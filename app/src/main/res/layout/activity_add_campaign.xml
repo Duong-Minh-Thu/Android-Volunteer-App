@@ -194,6 +194,65 @@
                     android:singleLine="true"
                     android:textSize="14sp"/>
 
+                <!-- Search Address -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Tìm vị trí theo địa chỉ"
+                    android:textColor="@color/slate_800"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="6dp"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="12dp">
+
+                    <EditText
+                        android:id="@+id/etAddAddressSearch"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="52dp"
+                        android:hint="Ví dụ: Đại học Bách Khoa TP.HCM"
+                        android:background="@drawable/bg_input"
+                        android:paddingHorizontal="16dp"
+                        android:textColor="@color/slate_900"
+                        android:textColorHint="@color/slate_400"
+                        android:singleLine="true"
+                        android:imeOptions="actionSearch"
+                        android:inputType="text"
+                        android:textSize="14sp"/>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnSearchAddress"
+                        style="@style/SleekButton"
+                        android:layout_width="80dp"
+                        android:layout_height="52dp"
+                        android:layout_marginStart="8dp"
+                        android:text="Tìm"
+                        android:textAllCaps="false"
+                        android:textSize="14sp"
+                        android:backgroundTint="@color/slate_900"/>
+                </LinearLayout>
+
+                <!-- Map Picker Card -->
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="220dp"
+                    android:layout_marginBottom="16dp"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="2dp"
+                    app:cardBackgroundColor="@color/slate_100">
+
+                    <fragment
+                        android:id="@+id/map_picker_add"
+                        android:name="com.google.android.gms.maps.SupportMapFragment"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"/>
+                </androidx.cardview.widget.CardView>
+
                 <!-- Location Coordinates -->
                 <TextView
                     android:layout_width="wrap_content"
@@ -203,6 +262,7 @@
                     android:textSize="12sp"
                     android:textStyle="bold"
                     android:layout_marginBottom="6dp"/>
+
 
                 <LinearLayout
                     android:layout_width="match_parent"

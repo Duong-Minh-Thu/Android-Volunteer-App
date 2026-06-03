@@ -53,13 +53,24 @@ import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
 import java.util.Locale
+import android.location.Geocoder
+import android.view.inputmethod.EditorInfo
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.Marker
+import com.google.android.gms.maps.model.MarkerOptions
 
-class AddCampaignActivity : AppCompatActivity() {
+class AddCampaignActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var binding: ActivityAddCampaignBinding
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var auth: FirebaseAuth
     private val calendar = Calendar.getInstance()
     private var selectedBase64Image: String? = null
+    private var mMap: GoogleMap? = null
+    private var mMarker: Marker? = null
 
     // Đăng ký Launcher xử lý chọn ảnh từ Thư viện (Gallery)
     private val pickImageLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
@@ -109,6 +120,23 @@ class AddCampaignActivity : AppCompatActivity() {
         // Bấm lấy tọa độ GPS tự động điền
         binding.btnLocateGPS.setOnClickListener {
             checkAndFetchGPS()
+        }
+
+        // Khởi tạo bản đồ picker
+        val mapFragment = supportFragmentManager.findFragmentById(R.id.map_picker_add) as SupportMapFragment
+        mapFragment.getMapAsync(this)
+
+        // Tìm vị trí theo địa chỉ
+        binding.btnSearchAddress.setOnClickListener {
+            searchAddress()
+        }
+        binding.etAddAddressSearch.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                searchAddress()
+                true
+            } else {
+                false
+            }
         }
 
         // Bấm lưu thông tin chiến dịch mới
@@ -190,13 +218,15 @@ class AddCampaignActivity : AppCompatActivity() {
                 binding.btnLocateGPS.text = "Lấy tọa độ vị trí hiện tại qua GPS"
 
                 if (location != null) {
-                    binding.etAddLatitude.setText("%.6f".format(Locale.US, location.latitude))
-                    binding.etAddLongitude.setText("%.6f".format(Locale.US, location.longitude))
+                    val latLng = LatLng(location.latitude, location.longitude)
+                    mMap?.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15f))
+                    updateSelectedLocation(latLng)
                     Toast.makeText(this, "Đã tự động điền tọa độ GPS!", Toast.LENGTH_SHORT).show()
                 } else {
                     // Trình dự phòng (fallback) nếu là giả lập không có dữ liệu GPS sẵn sàng
-                    binding.etAddLatitude.setText("10.762622")
-                    binding.etAddLongitude.setText("106.660172")
+                    val defaultLatLng = LatLng(10.762622, 106.660172)
+                    mMap?.animateCamera(CameraUpdateFactory.newLatLngZoom(defaultLatLng, 12f))
+                    updateSelectedLocation(defaultLatLng)
                     Toast.makeText(this, "Không nhận được GPS. Đã điền tọa độ mặc định TP.HCM!", Toast.LENGTH_LONG).show()
                 }
             }.addOnFailureListener {
@@ -346,6 +376,79 @@ class AddCampaignActivity : AppCompatActivity() {
         binding.etAddLongitude.isEnabled = !isLoading
         binding.btnLocateGPS.isEnabled = !isLoading
         binding.btnSelectImage.isEnabled = !isLoading
+    }
+
+    override fun onMapReady(googleMap: GoogleMap) {
+        mMap = googleMap
+        
+        // UX thông minh: Ngăn chặn ScrollView cướp sự kiện vuốt bản đồ picker
+        val mapFragment = supportFragmentManager.findFragmentById(R.id.map_picker_add) as SupportMapFragment
+        mapFragment.view?.setOnTouchListener { _, event ->
+            when (event.action) {
+                MotionEvent.ACTION_DOWN -> {
+                    binding.root.requestDisallowInterceptTouchEvent(true)
+                }
+                MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
+                    binding.root.requestDisallowInterceptTouchEvent(false)
+                }
+            }
+            false
+        }
+
+        // Tọa độ mặc định: TP.HCM
+        val defaultLoc = LatLng(10.762622, 106.660172)
+        mMap?.moveCamera(CameraUpdateFactory.newLatLngZoom(defaultLoc, 12f))
+
+        // Lắng nghe sự kiện click trên bản đồ
+        mMap?.setOnMapClickListener { latLng ->
+            updateSelectedLocation(latLng)
+        }
+
+        // Kiểm tra xem đã có sẵn tọa độ trong EditText chưa để cắm marker (ví dụ khi GPS chạy trước khi map ready)
+        val latStr = binding.etAddLatitude.text.toString()
+        val lngStr = binding.etAddLongitude.text.toString()
+        if (latStr.isNotEmpty() && lngStr.isNotEmpty()) {
+            try {
+                val lat = latStr.toDouble()
+                val lng = lngStr.toDouble()
+                val loc = LatLng(lat, lng)
+                updateSelectedLocation(loc)
+                mMap?.moveCamera(CameraUpdateFactory.newLatLngZoom(loc, 15f))
+            } catch (e: Exception) {}
+        }
+    }
+
+    private fun updateSelectedLocation(latLng: LatLng) {
+        mMarker?.remove()
+        mMarker = mMap?.addMarker(MarkerOptions().position(latLng).title("Vị trí đã chọn"))
+        
+        binding.etAddLatitude.setText("%.6f".format(Locale.US, latLng.latitude))
+        binding.etAddLongitude.setText("%.6f".format(Locale.US, latLng.longitude))
+    }
+
+    private fun searchAddress() {
+        val addressStr = binding.etAddAddressSearch.text.toString().trim()
+        if (addressStr.isEmpty()) {
+            Toast.makeText(this, "Vui lòng nhập địa chỉ cần tìm!", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        try {
+            val geocoder = Geocoder(this, Locale.getDefault())
+            val addresses = geocoder.getFromLocationName(addressStr, 1)
+            if (!addresses.isNullOrEmpty()) {
+                val address = addresses[0]
+                val latLng = LatLng(address.latitude, address.longitude)
+                
+                mMap?.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15f))
+                updateSelectedLocation(latLng)
+                Toast.makeText(this, "Đã tìm thấy địa chỉ: ${address.getAddressLine(0)}", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(this, "Không tìm thấy địa chỉ này!", Toast.LENGTH_SHORT).show()
+            }
+        } catch (e: Exception) {
+            Toast.makeText(this, "Lỗi tìm kiếm địa chỉ: ${e.message}", Toast.LENGTH_SHORT).show()
+        }
     }
 
     // UX: Tự động ẩn bàn phím khi bấm ra ngoài khu vực nhập liệu
