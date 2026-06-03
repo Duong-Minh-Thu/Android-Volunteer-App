@@ -419,6 +419,28 @@
 
                 </LinearLayout>
 
+                <!-- Delete Campaign Pill (creator/admin only) -->
+                <LinearLayout
+                    android:id="@+id/btnDeleteCampaign"
+                    android:layout_width="0dp"
+                    android:layout_height="36dp"
+                    android:layout_weight="1"
+                    android:layout_marginStart="3dp"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:background="@drawable/bg_pill_action"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:visibility="gone">
+
+                    <ImageView
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:src="@android:drawable/ic_menu_delete"
+                        app:tint="@color/red_500"/>
+
+                </LinearLayout>
+
             </LinearLayout>
 
             <!-- Map View Section: Elevated Rounded CardView (Designer Trick) -->

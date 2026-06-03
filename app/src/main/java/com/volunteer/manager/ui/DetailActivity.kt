@@ -30,6 +30,7 @@ import android.os.Bundle
 import android.view.MotionEvent
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -127,6 +128,11 @@ class DetailActivity : AppCompatActivity(), OnMapReadyCallback {
             val intent = Intent(this, EditCampaignActivity::class.java)
             intent.putExtra("campaign", campaign)
             startActivity(intent)
+        }
+
+        // Đăng ký sự kiện click nút Xóa chiến dịch (chỉ hiển thị cho ORG / Admin)
+        binding.btnDeleteCampaign.setOnClickListener {
+            confirmAndDeleteCampaign()
         }
 
         // Đăng ký sự kiện click nút Xem danh sách Tình nguyện viên đăng ký
@@ -252,6 +258,7 @@ class DetailActivity : AppCompatActivity(), OnMapReadyCallback {
                                               campaign.creatorId == currentUserId
                         
                         binding.btnEditCampaign.visibility = if (isCreatorOrAdmin) View.VISIBLE else View.GONE
+                        binding.btnDeleteCampaign.visibility = if (isCreatorOrAdmin) View.VISIBLE else View.GONE
                         
                         this@DetailActivity.isOrgOrAdmin = user.role == "ORG" || user.role == "Admin"
                         participantAdapter.updateValidationStates(this@DetailActivity.isOrgOrAdmin, campaign.confirmedParticipants)
@@ -529,6 +536,35 @@ class DetailActivity : AppCompatActivity(), OnMapReadyCallback {
         }
 
         dialog.show()
+    }
+
+    // Hiển thị hộp thoại xác nhận và thực hiện xóa chiến dịch khỏi Firebase Database
+    private fun confirmAndDeleteCampaign() {
+        val campaignId = if (!campaign.id.isNullOrEmpty()) campaign.id else campaign.campaignId
+        if (campaignId.isNullOrEmpty()) return
+
+        AlertDialog.Builder(this)
+            .setTitle("Xác nhận xóa")
+            .setMessage("Bạn có chắc chắn muốn xóa chiến dịch này không? Hành động này sẽ gỡ bỏ vĩnh viễn sự kiện và toàn bộ dữ liệu bình luận liên quan.")
+            .setPositiveButton("Xóa") { _, _ ->
+                val databaseRef = FirebaseDatabase.getInstance().reference
+                
+                // Thực hiện xóa chiến dịch
+                databaseRef.child("campaigns").child(campaignId).removeValue()
+                    .addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            // Xóa toàn bộ bình luận liên quan để dọn dẹp cơ sở dữ liệu
+                            databaseRef.child("comments").child(campaignId).removeValue()
+                            
+                            Toast.makeText(this, "Đã xóa chiến dịch thành công!", Toast.LENGTH_LONG).show()
+                            finish() // Quay về màn hình trước
+                        } else {
+                            Toast.makeText(this, "Lỗi khi xóa chiến dịch: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+            }
+            .setNegativeButton("Hủy bỏ", null)
+            .show()
     }
 }
 
